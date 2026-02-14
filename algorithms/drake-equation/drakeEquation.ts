@@ -18,11 +18,6 @@
  */
 
 import { 
-  LocationData, 
-  AgeRange, 
-  EducationLevel, 
-  AttractivenessLevel,
-  ReciprocityLevel,
   PersonalityTag,
   DrakeInput,
   DrakeResult,
@@ -58,9 +53,6 @@ export function calculatePotentialPartners(input: DrakeInput): DrakeResult {
   // Gender ratio factor (fw) - assuming looking for opposite gender
   const fw = location.femaleRatio;
   
-  // Location factor (fL) - already filtered by location selection
-  const fL = 1.0;
-  
   // Age appropriateness factor (fA)
   const fA = ageRange.factor;
   
@@ -79,12 +71,12 @@ export function calculatePotentialPartners(input: DrakeInput): DrakeResult {
   // Single status factor (fS)
   const fS = singleOnly ? 0.4 : 1.0; // Approximately 40% of population is single
 
-  // Final calculation: G = N × fw × fL × fA × fU × fB × fP × fR × fS
-  const G = N * fw * fL * fA * fU * fB * fP * fR * fS;
+  // Final calculation: G = N × fw × fA × fU × fB × fP × fR × fS
+  const G = N * fw * fA * fU * fB * fP * fR * fS;
 
   // Generate calculation steps for educational display
   const steps = generateCalculationSteps({
-    N, fw, fL, fA, fU, fB, fP, fR, fS
+    N, fw, fA, fU, fB, fP, fR, fS
   });
 
   return {
@@ -128,7 +120,6 @@ function calculatePersonalityFactor(tags: PersonalityTag[]): number {
 function generateCalculationSteps(params: {
   N: number;
   fw: number;
-  fL: number;
   fA: number;
   fU: number;
   fB: number;
@@ -136,7 +127,7 @@ function generateCalculationSteps(params: {
   fR: number;
   fS: number;
 }): CalculationStep[] {
-  const { N, fw, fL, fA, fU, fB, fP, fR, fS } = params;
+  const { N, fw, fA, fU, fB, fP, fR, fS } = params;
   
   return [
     {
